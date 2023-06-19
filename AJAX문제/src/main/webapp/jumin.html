@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+  const regular_jumin = /\d{2}([0]\d|[1][0-2])([0][1-9]|[1-2]\d|[3][0-1])[-]*[0-9]\d{6}/; 
+
+  function send(){
+	  
+	  var jumin_no = $("#jumin_no").val();
+	  
+	  //유효성체크(정규식)
+	  if(regular_jumin.test(jumin_no)==false){  
+		  alert('주민번호가 유효하지 않습니다');
+		  $("jumin_no").val("");
+		  $("#jumin_no").focus();
+		  
+		  return;
+	  }	  
+	  
+	  $.ajax({
+			type		:"GET",//요청방식: GET / POST / PUT / DELETE
+			url 		:"jumin.do",//서버객체[calcAction]
+			data		:{"jumin_no":jumin_no},//parameter(JSON Type)
+			//요청 옵션
+			//-------------------------------------------------------------------
+			//응답 옵션
+			dataType	:"json",					//결과데이터 Type(JSON/XML?TEXT....)
+			success		:function(res_data){
+				
+				//res_data = ["plus":15,"minus":5......]
+				
+				
+				//<span id="plus"></span>
+				
+				$("#year").html(res_data.year);
+				$("#age").html(res_data.age);
+				$("#tti").html(res_data.tti);
+				$("#season").html(res_data.season);
+				$("#gender").html(res_data.gender);
+				$("#ganji").html(res_data.ganji);
+				$("#local").html(res_data.local);
+				
+			
+				
+				
+			},
+			error		:function(err){
+				//alert(err.responseText);
+				alert(err.status);//error code
+			},
+			
+			
+		});
+	  
+ 
+	 
+	  
+  }
+
+</script>
+
+</head>
+<body>
+ 
+    주민번호:<input id="jumin_no" value="801212-1234560">
+    
+             <input type="button"   value="확인" 
+                    onclick="send();">
+                    
+            <hr>
+                    
+
+<table border="1">
+  <tr>
+     <th width="50%">출생년도</th>
+     <td><span id="year"></span></td>
+  </tr> 
+  <tr>
+     <th width="50%">나이</th>
+     <td><span id="age"></span></td>
+  </tr> 
+  <tr>
+     <th width="50%">띠</th>
+     <td><span id="tti"></span></td>
+  </tr> 
+  <tr>
+     <th width="50%">시즌</th>
+     <td><span id="season"></span></td>
+  </tr> 
+  <tr>
+     <th width="50%">성별</th>
+     <td><span id="gender"></span></td>
+  </tr> 
+  <tr>
+     <th width="50%">간지</th>
+     <td><span id="ganji"></span></td>
+  </tr> 
+   <tr>
+     <th width="50%">지역</th>
+     <td><span id="local"></span></td>
+  </tr> 
+   <tr>
+     <th width="50%">나머지</th>
+     <td><span id="bValid"></span></td>
+  </tr> 
+</table>
+ 
+</body>
+</html>
