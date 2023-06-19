@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<!-- AJax사용설정 -->
+<script type="text/javascript" src="js/httpRequest.js"></script>
+
+
+
+<script type="text/javascript">
+  function send(){
+	 
+	  var url   = "server_time.do"; //ServerTimeAction
+	  var param = null;
+	  
+	  //사용자 정의함수(Ajax 통신)
+	  sendRequest(url , param , resultFn, "GET" );
+	  
+  }
+  
+  //Callback함수
+  function resultFn(){
+	  
+	  console.log("xhr.readyState:" + xhr.readyState, "xhr.status:" + xhr.status);
+	  
+	  if(xhr.readyState==4 && xhr.status==200){
+		  
+		  //xhr내에 다운로드된 정보를 읽어오기
+		  var data = xhr.responseText;
+		  
+		  //가져온 데이터 <div id="disp"></div>에 넣는다
+		  document.getElementById("disp").innerHTML  = data;
+		  
+	  }
+	  
+  }
+
+</script>
+
+
+</head>
+<body>
+
+<hr>
+  서버시간을 AJax로 요청하는 예제입니다
+<hr>
+
+<input type="button"  value="Ajax전송(서버시간 확인)" onclick="send();">
+<div id="disp"></div>
+
+</body>
+</html>
