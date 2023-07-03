@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<!-- Bootstrap3.x 설정 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+<script type="text/javascript">
+
+  function search(){
+	  
+	  var deptno = $("#deptno").val();
+	  var sajob  = $("#sajob").val();
+	  var gogek  = $("#gogek").val();
+	  
+	  //Ajax이용해서 결과요청
+	  $.ajax({
+		  url		:	"sawon/list.do",
+		  data		:	{"deptno" : deptno , "sajob": sajob,"gogek":gogek },
+		  success	:	function(res_data){
+			  
+			  console.log(res_data);
+			  
+			  $("#disp").html(res_data);
+			  
+			  
+		  },
+		  error		:	function(err){
+			  alert(err.responseText);
+		  }
+	  });
+	  
+	  
+  }
+
+</script>
+
+
+</head>
+<body>
+
+<div style="text-align: center;">
+	<!-- 조회화면 -->
+	부서번호:<select id="deptno">
+	            <option value="0">전체보기</option> 
+	            <option value="10">10번부서</option> 
+	            <option value="20">20번부서</option> 
+	            <option value="30">30번부서</option> 
+	            <option value="40">40번부서</option> 
+	            <option value="50">50번부서</option> 
+	         </select>
+	         
+	
+	직급 : <select id="sajob">
+	           <option value="all">전체보기</option>  
+	           <option value="부장">부장</option>  
+	           <option value="과장">과장</option>  
+	           <option value="대리">대리</option>  
+	           <option value="사원">사원</option>  
+	           <option value="알바">알바</option>  
+	       </select>      
+	       
+ 	고객 : <select id="gogek">
+	           <option value="all">전체보기</option>  
+	           <option value="1">1</option>  
+	           <option value="2">2</option>  
+	           <option value="3">3</option>  
+	           <option value="4">4</option>  
+	           <option value="5">5</option>  
+	       </select>     
+	         
+	         
+	         
+	         <input type="button" value="검색" onclick="search();">
+	         
+</div>
+
+<hr>
+
+<div id="disp"></div>
+
+</body>
+</html>

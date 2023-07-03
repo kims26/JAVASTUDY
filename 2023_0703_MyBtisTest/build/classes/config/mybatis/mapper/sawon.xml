@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sawon">
+
+  <!-- 전체조회 
+       select는 반드시 resultType을 작성해야 된다
+       resultType(Map)는 행(Record)의 결과Type이다
+  -->
+  <select id="sawon_list"  resultType="vo.SawonVo">
+     select * from sawon  
+  </select>
+  
+  <!-- 부서별 조회 
+       parameter정보가 1개타입일 경우 변수명은 아무이름이나 상관없다 
+       mybatis에서 parameter변수명 표현 : #{ 변수명 }  
+  -->
+  <select id="sawon_list_deptno"  parameterType="int"   resultType="vo.SawonVo">
+     select * from sawon where deptno=#{ deptno } 
+  </select>
+  
+  <!-- 직급별 조회 -->
+  <select id="sawon_list_sajob"  parameterType="String"  resultType="vo.SawonVo">
+     select * from sawon where sajob=#{ sajob } 
+  </select>
+  
+  
+  
+  <!-- 부서별/직급별 조회 
+       parameter Type으로 사용자객체(VO) 또는 Map이 전달되면
+       VO 의 속성명만 사용할 수 있다
+       Map의 Key이름만 사용할 수 있다 
+  -->
+  <select id="sawon_list_deptno_sajob" 
+          parameterType="vo.SawonVo" 
+          resultType="vo.SawonVo">
+     select * from sawon where deptno=#{ deptno }  and sajob=#{ sajob }     
+  
+  </select>
+  
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
