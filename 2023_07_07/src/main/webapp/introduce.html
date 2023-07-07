@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>환경오염 WEB 프로젝트</title>
+    <link href="https://webfontworld.github.io/gmarket/GmarketSans.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+     <link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css" />
+    <link rel="stylesheet" type="text/css" href="css/slick-theme.css">
+    <link rel="stylesheet" type="text/css" href="css/slick.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+      <link rel="stylesheet" type="text/css" href="css/slide_main.css">
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+
+      <link rel="stylesheet" type="text/css" href="css/move.css">
+    
+    	
+    	
+    	
+   <script type="text/javascript">
+  //browser초기화시 현재 위치의 위도/경도를 구한다
+   window.onload = function(){
+
+		 if (navigator.geolocation) {
+		     navigator.geolocation.getCurrentPosition(function(position){
+		    	  var latitude =  position.coords.latitude;
+				  var longitude=  position.coords.longitude;
+				  
+				  console.log(latitude,longitude);
+				  
+				  document.getElementById("latitude").value  = latitude;
+				  document.getElementById("longitude").value = longitude;
+				  
+				  document.getElementById("latitude1").value  = latitude;
+				  document.getElementById("longitude1").value = longitude;
+				  
+				  document.getElementById("latitude2").value  = latitude;
+				  document.getElementById("longitude2").value = longitude;
+		    	 
+		     });
+		 } 
+
+   };
+
+
+   function send(f){
+	   
+	   var query = f.query.value.trim();
+	   
+	   if(query==''){
+	
+		   f.query.vlaue='';
+		   f.query.focus();
+		   return;   
+	   }
+	  
+	   f.action = "kakao/keyword.do";
+	   f.submit();
+	   
+   }
+   
+
+</script>
+
+
+</head>
+
+<body>
+     <div id="fullpage">
+     <div class="section " id="section0">
+    <header class="s_header" id="s_header">
+        <div class="background">
+       
+        <div class="inner">
+ 	
+           <ul class="login">
+           <li><a class="join" href="#none"></a><span>JOIN</span></li>
+               <li><a class="login"  href="#none"></a><span>LOGIN</span></li>
+               
+               
+           </ul>
+       
+            <nav class="s_gnb">
+
+                <ul>
+                    <li><a href="introduce.html">HOME</a></li>
+                    <li><a href="#none">환경오염의 현실</a></li>
+                    <li><a href="#none">기업들의 노력</a></li>
+                    <li><a href="#none">친환경의 시작</a></li>
+                    <li><a href="#none">CONTEST</a></li>
+                </ul>
+            </nav>
+            </div>
+       </div>
+    </header>
+         </div>
+   
+  
+      <div class="section" id="section1">
+            <div class="s_cont1">
+                <div class="inner">
+                    <div class="s_cont_title">
+                        <ul class="sub_title">
+                            <li><a href="#none">환경</a></li>
+                            <li><a href="#none">오염의</a></li>
+                            <li><a href="#none">현실</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="greeting"
+                       id="main_slide">
+                       <div class="box box1">
+                        <div class="top">
+                            <!--            <div class="txt1">-->
+                            <ul class="txt1">
+                                <li><a href="#none"></a></li>
+                                
+                            </ul>
+
+                            <!--          </div>-->
+                        </div>
+                        <div class="img_box1">
+                            <a href="#none"></a>
+
+                        </div>
+                        <div class="top_middle"><ul>
+                            <li>  </li>
+                        </ul>
+                          
+                        </div>
+                        </div>
+                        <div class="box box2">
+                        <div class="middle">
+                            <ul class="txt2">
+                              
+                                <li><a href="#none">
+                                    </a></li>
+                            </ul>
+                           </div>
+                           
+                        <div class="img_box2"><a href="#none"></a></div>
+                        <div class="bottom">
+                            <ul class="txt3">
+                                <li>
+                                    <a href="#none"></a>
+                                </li>
+                                <li><a href="#none"></a>
+                                       
+                                   
+</li>
+                                <li><a href="#none"></a></li>
+                                <li> <a href="#none"></a></li>
+                                <li>
+                                    <a href="#none"></a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+                 </div>
+          </div>   </div>  
+                <div class="section" id="section2">
+                <div class="intro">
+                <div class="s_cont2">
+                  <div class="inner">
+                   <div class="s_cont_title">
+                    <ul class="sub_title">
+                        <li><a href="#none">지구를 위한</a></li>
+                        <li><a href="#none">기업들의</a></li>
+                       
+                        <li><a href="#none">노력</a></li>
+                    </ul>
+                    </div>
+                    <div class="slide" id="slide1">
+                    <div class="box box1">
+                    <div class="museum_area" >
+                    <ul>
+                    	<li>
+                        <a href="#none"></a>
+                        </li>
+                    	<li>
+                        <a href="#none"></a>
+                        </li>
+                     </ul>
+                     <ul>
+                    	 <li>
+                         <a href="#none"></a>
+                         </li>
+                    	 <li>
+                         <a href="#none"></a>
+                         </li>
+                      </ul>
+
+                        </div>
+                        </div>
+                        </div>
+                        
+                   
+                        
+                </div>
+            </div></div>
+      </div>
+      
+
+                   <div class="section" id="section3">
+                <div class="s_cont4">
+                   <div class="inner">
+                       <div class="s_cont_title">
+                  
+                    <ul class="sub_title">
+                        <li><a href="#none">이제</a></li>
+                        <li><a href="#none">우리도</a></li>
+                     
+                        <li><a href="#none">시작해야 합니다</a></li>
+                    </ul></div>
+
+						 <form>
+						<div class="button_container">
+
+						   <input type="hidden" name="latitude"   id="latitude">
+						   <input type="hidden" name="longitude"  id="longitude">
+						   
+						
+						   <input type="hidden" name="query"   value="리필스테이션">
+						   <input id="btn" type="button"  value="리필스테이션" onclick="send(this.form);"> &nbsp;&nbsp;&nbsp; 
+						</div>
+						</form>
+						
+						
+						<form>
+						<div class="button_container">
+
+						   <input type="hidden" name="latitude"   id="latitude1">
+						   <input type="hidden" name="longitude"  id="longitude1">
+						
+						   <input  type="hidden" name="query"   value="비건식당">
+						   <input id="btn1" type="button"  value="비건식당" onclick="send(this.form);"> &nbsp;&nbsp;&nbsp; 
+						
+					</div>
+						</form>
+						
+												
+						<form>
+						<div class="button_container">
+						   <input type="hidden" name="latitude"   id="latitude2">
+						   <input type="hidden" name="longitude"  id="longitude2">
+						 
+						   
+						   
+						   <input type="hidden" name="query"   value="제로웨이스트샵">
+						   <input id="btn2" type="button"  value="제로웨이스트샵" onclick="send(this.form);"> &nbsp;&nbsp;&nbsp; 
+						   
+						 
+						    </div>
+						
+						</form>          
+						                    </div>
+						                </div>
+						            </div>
+						      </div>
+						      
+      
+ 
+        <div class="section fp-auto-height" id="section4">
+        <footer class="footer" id="footer">
+        <div class="inner">
+            <div class="footer_logo">
+                <a href="index.html"><img src="images/main/logo.png" alt="footer_logo"></a>
+            </div>
+            <div class="footer_center">
+                <strong>(54575) 전라북도 익산시 왕궁면 호반로 8 보석박물관 / Tel. 063-859-4641∼3 / Fax. 063-859-464</strong>
+                <span>COPYRIGHT (C) 2020. JEWELMUSEUM.GO.KR. ALL RIGHTS RESERVED. 개인정보보호정책</span>
+                <span>본 웹사이트에 게시된 이메일 주소의 자동수집을 거부하며, 이를 위반시 정보통신망법에 의해 처벌됨을 유념하시기 바랍니다</span>
+            </div>
+
+            <ul class="sns">
+                <li><a href="href#none">facebok</a></li>
+                <li><a href="href#none">instagram</a></li>
+                <li><a href="href#none">youtube</a></li>
+            </ul>
+
+        </div>
+    </footer>
+    </div>
+     </div>
+</body>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/jquery.fullPage.min.js"></script>
+<script src="js/slick.min.js"></script>
+<script src="js/common.js"></script>
+
+<script>
+    $(document).ready(function() {
+        if ($(window).width() < 1024) {
+            $('#fullpage').removeAttr('id');
+        }
+        $('#fullpage').fullpage({
+            anchors: ['firstPage', 'secondPage', '3rdPage'],
+           
+            navigation: true,
+            navigationTooltips: ['First page', 'Second page', 'Third and last page'],
+
+            'afterLoad': function(index, nextIndex, direction) {
+                if (nextIndex == 1) {
+                    $(window).load(function() {
+                        $("#section0").addClass("on");
+                    });
+                } else if (nextIndex == 2) {
+                    $("#section1").addClass("on");
+                } else if (nextIndex == 3) {
+                    $("#section2").addClass("on");
+                } else if (nextIndex == 4) {
+                    $("#section3").addClass("on");
+              
+                } else if (nextIndex == 5) {
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+    $(function() {
+        $('#main_slide').slick({
+            slide: 'div',
+            infinite: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            speed: 100,
+            arrows: true,
+            autoplay: true,
+            autoplaySpeed: 5000,
+            pauseOnFocus: false,
+            pauseOnHover: false,
+            prevArrow: "<button type='button' class='slick-prev'>Previous</button>",
+            nextArrow: "<button type='button' class='slick-next'>Next</button>",
+        });
+
+    });
+</script>
+</html>
