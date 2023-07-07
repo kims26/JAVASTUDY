@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+
+<script type="text/javascript">
+
+   //browser초기화시 현재 위치의 위도/경도를 구한다
+   window.onload = function(){
+
+		 if (navigator.geolocation) {
+		     navigator.geolocation.getCurrentPosition(function(position){
+		    	  var latitude =  position.coords.latitude;
+				  var longitude=  position.coords.longitude;
+				  
+				  console.log(latitude,longitude);
+				  
+				  document.getElementById("latitude").value  = latitude;
+				  document.getElementById("longitude").value = longitude;
+				  
+				  document.getElementById("latitude1").value  = latitude;
+				  document.getElementById("longitude1").value = longitude;
+				  
+				  document.getElementById("latitude2").value  = latitude;
+				  document.getElementById("longitude2").value = longitude;
+		    	 
+		     });
+		 } 
+
+   };
+
+
+   function send(f){
+	   
+	   var query = f.query.value.trim();
+	   
+	   if(query==''){
+	
+		   f.query.vlaue='';
+		   f.query.focus();
+		   return;   
+	   }
+	  
+	   f.action = "kakao/keyword.do";
+	   f.submit();
+	   
+   }
+   
+
+  
+   
+
+</script>
+
+</head>
+<body>
+
+<form>
+
+
+   <!-- 위도/경도를 숨겨서 전송 -->
+   <input type="hidden" name="latitude"   id="latitude">
+   <input type="hidden" name="longitude"  id="longitude">
+   
+<!--    <input type="hidden" name="query"   value="리필스테이션"> -->
+   <input type="hidden" name="query"   value="리필스테이션">
+   <input  type="button"  value="리필스테이션" onclick="send(this.form);"> &nbsp;&nbsp;&nbsp; 
+
+</form>
+
+
+<form>
+   <!-- 위도/경도를 숨겨서 전송 -->
+   <input type="hidden" name="latitude"   id="latitude1">
+   <input type="hidden" name="longitude"  id="longitude1">
+ 
+   
+   <input type="hidden" name="query"   value="비건식당">
+   <input  type="button"  value="비건식당" onclick="send(this.form);"> &nbsp;&nbsp;&nbsp; 
+    
+
+</form>
+
+<form>
+   <!-- 위도/경도를 숨겨서 전송 -->
+   <input type="hidden" name="latitude"   id="latitude2">
+   <input type="hidden" name="longitude"  id="longitude2">
+ 
+   
+   <input type="hidden" name="query"   value="제로웨이스트샵">
+   <input  type="button"  value="제로웨이스트샵" onclick="send(this.form);"> &nbsp;&nbsp;&nbsp; 
+    
+
+</form>
+
+
+
+
+
+
+ 
+
+</body>
+</html>
+
+
+
+
+
+
+
