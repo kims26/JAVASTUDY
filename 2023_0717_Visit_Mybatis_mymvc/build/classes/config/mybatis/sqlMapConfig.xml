@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<!-- type별칭 -->
+	<typeAliases>
+	   <typeAlias type="vo.VisitVo" alias="visit"/>
+	</typeAliases>
+	
+	
+	<!-- DB정보 -->
+	<environments default="">
+		<environment id="">
+			<transactionManager type="JDBC" />
+			<dataSource type="JNDI">
+				<property name="data_source" 
+				value="java:comp/env/jdbc/oracle_test" />
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!-- Mapper정보 -->
+	<mappers>
+		<mapper resource="config/mybatis/mapper/visit.xml" />
+	</mappers>
+</configuration>
