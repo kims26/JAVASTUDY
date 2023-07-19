@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="product">
+
+
+   <!-- Category별 조회 -->
+   <select id="product_list" parameterType="String" resultType="vo.ProductVo">
+      select * from product where category=#{ category }
+   </select>
+  
+   <!-- p_idx해당되는 상품정보 1건 얻기 -->
+   <select id="product_one" parameterType="int"  resultType="product">
+       select * from product where p_idx=#{ p_idx }
+   </select> 
+  
+ 
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
