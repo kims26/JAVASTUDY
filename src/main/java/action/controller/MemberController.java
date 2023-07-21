@@ -73,6 +73,10 @@ public class MemberController {
 		String  mem_id	= 	request.getParameter("mem_id");
 		String  mem_pwd	= 	request.getParameter("mem_pwd");
 		
+		String  url		=   request.getParameter("url");
+		
+		if(url==null) url="";
+		
 		
 		//3.mem_id해당되는 데이터 1건 정보 얻어온다
 		MemberVo user = MemberDao.getInstance().selectOne(mem_id);
@@ -80,14 +84,14 @@ public class MemberController {
 		//아이디 틀린경우
 		if(user==null) {
 			
-			response.sendRedirect("login_form.do?reason=fail_id");
+			response.sendRedirect("login_form.do?reason=fail_id&url=" + url);
 			
 		}
 		
 		//비빌번호 틀린경우
 		if(user.getMem_pwd().equals(mem_pwd)==false) {
 			
-			response.sendRedirect("login_form.do?reason=fail_pwd&mem_id=" + mem_id);
+			response.sendRedirect("login_form.do?reason=fail_pwd&mem_id=" + mem_id + "&url=" + url);
 			
 		}
 		
@@ -95,6 +99,13 @@ public class MemberController {
 		HttpSession session = request.getSession();
 		//세션에 로그인한 user를 넣는다
 		session.setAttribute("user", user);
+		
+		
+		if(url.isEmpty()==false) {
+			
+			return "redirect:" + url;
+		}
+		
 		
 		return "redirect:../product/list.do";
 	}

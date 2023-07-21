@@ -10,6 +10,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    	  select * from cart_view where mem_idx=#{ mem_idx }
    </select>
    
+   <!-- 이미등록된 상품여부 -->
+   <select id="cart_one_exist"  parameterType="vo.CartVo" resultType="vo.CartVo">
+      select * from cart where mem_idx=#{ mem_idx } and p_idx=#{ p_idx } 
+   </select>
+   
+   
    <!-- 로그인유저별 총합계구하기 -->
    <select id="cart_total_amount"  parameterType="int" resultType="int">
       select nvl(sum(amount),0) from cart_view where mem_idx=#{ mem_idx }
@@ -20,6 +26,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       update cart set c_cnt=#{ c_cnt } 
       where c_idx=#{ c_idx }
    </update>
+   
+   <!-- 장바구니 등록  -->
+   <insert id="cart_insert" parameterType="vo.CartVo">
+      insert into cart values( seq_cart_c_idx.nextVal, 1 , #{p_idx},#{mem_idx} )
+   </insert>
+   
+   
    
    <!-- 장바구니 삭제 -->
    <delete id="cart_delete"  parameterType="int">

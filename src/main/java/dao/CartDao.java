@@ -82,6 +82,55 @@ public class CartDao {
 		
 		return res;
 	}
+
+	public int delete(int c_idx) {
+		// TODO Auto-generated method stub
+		int res = 0;
+		
+		//1.SqlSession얻기
+		SqlSession sqlSession = factory.openSession(true);// auto commit
+		
+		//2.작업수행
+		res = sqlSession.delete("cart.cart_delete", c_idx);
+		
+		//3.닫기
+		sqlSession.close();		
+		
+		
+		return res;
+	}
+
+	public CartVo selectOne(CartVo vo) {
+		// TODO Auto-generated method stub
+		CartVo resVo = null;
+		//1.SqlSession얻기
+		SqlSession sqlSession = factory.openSession();
+		
+		//2.작업수행
+		resVo = sqlSession.selectOne("cart.cart_one_exist", vo);
+		
+		//3.닫기
+		sqlSession.close();
+		
+		return resVo;
+	}
+
+	public int insert(CartVo vo) {
+		// TODO Auto-generated method stub
+		int res = 0;
+		
+		//1.SqlSession얻기
+		SqlSession sqlSession = factory.openSession(true);// auto commit
+		
+		//2.작업수행
+		res = sqlSession.insert("cart.cart_insert", vo);
+		
+		//3.닫기
+		sqlSession.close();		
+		
+		
+		return res;
+	}
 	
 	
 	
