@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo_transaction.dao.ProductRemainDao">
+
+  <!-- 조회 -->
+  <select id="selectList" resultType="ProductVo">
+     select * from product_remain  order by idx
+  </select>
+  
+  <!-- 상품명에 해당되는 객체1개 조회 -->
+  <select id="selectOne"  parameterType="String" resultType="ProductVo">
+     select * from product_remain where name=#{ name }
+  </select>
+
+  <!-- 재고등록 -->
+  <insert id="insert" parameterType="ProductVo">
+      insert into product_remain values(
+        seq_product_remain_idx.nextVal,
+        #{ name} ,
+        #{ cnt } ,
+        sysdate
+      )
+  </insert>
+
+  <!-- 재고수정  -->
+  <update id="update" parameterType="ProductVo">
+      update product_remain set cnt = #{ cnt } ,regdate=sysdate
+      where  idx = #{ idx }
+  </update>
+  
+ 
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

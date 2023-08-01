@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo_transaction.dao.ProductInDao">
+
+  <!-- 조회 -->
+  <select id="selectList" resultType="ProductVo">
+     select * from product_in order by idx
+  </select>
+  
+  <!-- 입고등록 -->
+  <insert id="insert" parameterType="ProductVo">
+      insert into product_in values(
+        seq_product_in_idx.nextVal,
+        #{ name} ,
+        #{ cnt } ,
+        sysdate
+      )
+  </insert>
+
+  <!--삭제-->
+  <del id="del_in" parameterType="int">
+    delete from product_in where idx=#{ idx }
+  </del>
+ 
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
