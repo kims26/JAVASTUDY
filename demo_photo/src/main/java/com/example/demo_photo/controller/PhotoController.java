@@ -20,7 +20,7 @@ public class PhotoController {
     @Autowired
     PhotoDao photoDao;
 
-    public PhotoController(PhotoDao visitDao) {
+    public PhotoController(PhotoDao photoDao) {
         this.photoDao = photoDao;
     }
 
@@ -35,6 +35,45 @@ public class PhotoController {
 		
 		return "photo_list.jsp";
 	}
+
+   //입력폼 띄우기
+   @RequestMapping("/photo/insert_form.do")
+   public String insert_form(){
+
+       return "photo/photo_insert_form";
+   }
+
+
+   @RequestMapping("/photo/delete.do")
+
+    public String delete(int p_idx){
+    
+        
+        int res = photoDao.delete(p_idx);
+
+        return "redirect:list.do";
+    }
+
+     @RequestMapping("/photo/update.do")
+
+    public String update(PhotoVo vo){
+    
+        
+        int res = photoDao.update(vo);
+
+        return "redirect:list.do";
+    }
+
+
+    
+
+    
+   
+
+
+
+
+
 
 
 

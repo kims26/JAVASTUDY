@@ -1,21 +1,26 @@
 package com.example.demo_photo.dao;
 
 import java.util.List;
-import java.util.Map;
+
 
 import com.example.demo_photo.vo.MemberVo;
 
 public interface MemberDao {
 
      
-    List<MemberVo> selectList();//전체조회
+    public List<MemberVo> selectList();//전체조회
     
-    MemberVo selectOne(int idx);
+    public MemberVo selectOne(int mem_idx);
 
-    List<MemberVo> selectConditionList(Map map);
+    public MemberVo selectOne(String mem_id);
 
-    int insert(MemberVo vo);
+    //List<MemberVo> selectConditionList(Map map);
+
+    public int insert(MemberVo vo);
      
+    public int update(MemberVo vo);
+
+    public int delete(int mem_idx);
 
      
 }
