@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo_board.dao.BoardDao">
+
+
+  <select id="selectList"  resultType="BoardVo">
+  	 select * from board 
+     order by b_ref desc,b_step asc
+  </select>
+  
+  <select id="selectOne" parameterType="int" resultType="BoardVo">
+     select * from board where b_idx=#{ b_idx }
+  </select>
+  
+  <!-- 조회수 증가 -->
+  <update id="update_readhit" parameterType="int">
+      update board set b_readhit = b_readhit+1
+      where b_idx=#{ b_idx }
+  </update>
+ 
+  <!-- 새글쓰기 -->
+  <insert id="insert" parameterType="BoardVo">
+    insert into board values(
+                  seq_board_b_idx.nextVal, 
+                  #{ b_subject },
+                  #{ b_content },
+                  #{ b_ip },
+                  sysdate,
+                  0,
+                  'y',
+                  #{ mem_idx },
+                  #{ mem_name },
+                  seq_board_b_idx.currVal,
+                  0,
+                  0)
+  </insert>
+
+  <!-- 답글쓰기 -->
+  <insert id="reply" parameterType="BoardVo">
+    insert into board values(
+                  seq_board_b_idx.nextVal, 
+                  #{ b_subject },
+                  #{ b_content },
+                  #{ b_ip },
+                  sysdate,
+                  0,
+                  'y',
+                  #{ mem_idx },
+                  #{ mem_name },
+                  #{ b_ref },
+                  #{ b_step },
+                  #{ b_depth })
+  </insert>
+
+  <update id="update_step" parameterType="BoardVo">
+      update board set b_step = b_step + 1
+      where b_ref=#{ b_ref} and b_step > #{ b_step }
+  </update>
+
+   <update id="update"  parameterType="BoardVo">
+     
+     update board set b_subject=#{ b_subject },
+                 b_content= #{ b_content },
+                  b_ip=#{ b_ip },
+                  b_regdate=sysdate
+     where b_idx=#{ b_idx }
+  
+  </update>
+  
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
