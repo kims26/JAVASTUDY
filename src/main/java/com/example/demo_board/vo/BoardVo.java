@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class BoardVo {
     
+    int    no;
     int    b_idx;
     String b_subject;
     String b_content;

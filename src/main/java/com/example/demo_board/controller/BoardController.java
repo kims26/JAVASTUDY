@@ -1,6 +1,8 @@
 package com.example.demo_board.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -9,11 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo_board.dao.BoardDao;
 import com.example.demo_board.vo.BoardVo;
 import com.example.demo_board.vo.MemberVo;
+
+import util.MyConstant;
+import util.Paging;
 
 @Controller
 @RequestMapping("/board/")
@@ -35,11 +41,50 @@ public class BoardController {
     }
 
 
+    // /board/list.do
+    // /board/list.do?page=1
     //@RequestMapping("/board/list.do")
     @RequestMapping("list.do")  //  위에 "/board/" + "list.do"
-    public String list(Model model){
+    public String list(@RequestParam(name="page", defaultValue = "1") int nowPage,Model model,
+                        String search,
+                       String search_text   ){
 
-        List<BoardVo> list = boardDao.selectList();
+                        System.out.println("-----------");
+
+        //가져올 게시물 시작/끝을 구한다
+        int start = (nowPage-1) * MyConstant.Board.BLOCK_LIST + 1;
+        int end   = start + MyConstant.Board.BLOCK_LIST - 1;
+
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("start", start);
+        map.put("end", end);
+
+        if(search.equals("name_content")) {
+			//이름 + 내용
+			map.put("name", search_text);
+			map.put("content", search_text);
+		}else if(search.equals("name")) {
+			//이름
+			map.put("name", search_text);
+		}else if(search.equals("content")) {
+			//내용
+			map.put("content", search_text);
+			
+		}
+
+        List<BoardVo> list = boardDao.selectConditionList(map);
+
+
+        //전체게시물수
+        int rowTotal = boardDao.selectRowTotal(map); //현재 map정보는 일단무시
+
+        //페이징메뉴 생성하기
+        String pageMenu = Paging.getPaging("list.do", 
+                                           nowPage, 
+                                           rowTotal, 
+                                           MyConstant.Board.BLOCK_LIST,
+                                           MyConstant.Board.BLOCK_PAGE);
+        //System.out.println(pageMenu);
 
 
         //이전 view.do에서 session저장해놓은 show값 지우기
@@ -49,9 +94,15 @@ public class BoardController {
         //model->DispatcherServlet전달->request binding
         //     ->return되는 뷰정보를 이용해서 forward 
         model.addAttribute("list", list);
+        model.addAttribute("pageMenu", pageMenu);
 
         return "board/board_list";
     }
+
+
+
+
+
 
    
 
@@ -162,7 +213,6 @@ public class BoardController {
 
         //2.기준글보다 b_step큰 게시물의 b_step를 1씩 증가
         int res = boardDao.update_step(baseVo);
-        
         if(res==0){}
         
         //3.현재 등록글에 대한 b_ref,b_step,b_depth설정작업
@@ -178,42 +228,66 @@ public class BoardController {
      }
 
 
-
      //  /board/modify_form.do?b_idx=6
 
     //수정 폼
     @RequestMapping("modify_form.do")
     public String modify_form(int b_idx,Model model){
 
-       // BoardVo baseVo  = boardDao.selectOne(vo.getB_idx());
-
         BoardVo vo = boardDao.selectOne(b_idx);
 
-   
+        // <br> -> \n
+        String b_content = vo.getB_content().replaceAll("<br>", "\n");
+        vo.setB_content(b_content);
 
         model.addAttribute("vo", vo);
 
         return "board/board_modify_form";
     }
 
+
     @RequestMapping("modify.do")
-    public String modify(BoardVo vo){
+    public String modify(BoardVo vo,RedirectAttributes ra){
 
-    String b_ip = request.getRemoteAddr();
-    vo.setB_ip(b_ip);
+        //로그인 유저정보 구하기
+        MemberVo user = (MemberVo) session.getAttribute("user");
 
-    String b_content = vo.getB_content().replaceAll("\n", "<br>");
-    vo.setB_content(b_content);
+        //로그아웃된 상태면
+        if(user==null){
+            
+            ra.addAttribute("reason","fail_session_timeout");
+            //login_form.do?reason=fail_session_timeout 
+            return "redirect:../member/login_form.do";
+        }
+ 
+        String b_ip = request.getRemoteAddr();
+        vo.setB_ip(b_ip);
 
-        int res=boardDao.update(vo);
+        // \n -> <br>
+        String b_content = vo.getB_content().replaceAll("\n", "<br>");
+        vo.setB_content(b_content);
+
+        //DB update
+        int res = boardDao.update(vo);
+        if(res==0){}
+        //수정후 원래뷰로 이동 : view.do?b_idx=5   
+        ra.addAttribute("b_idx", vo.getB_idx());
+        
+        return "redirect:view.do";
+    }
+
+
+    //  /board/delete.do?b_idx=5
+    //삭제
+    @RequestMapping("delete.do")
+    public String delete(int b_idx){
+
+        int res = boardDao.delete_update_b_use(b_idx);//내부적인 명령 update board set b_use='n'
 
         if(res==0){}
 
         return "redirect:list.do";
     }
-
-
-    
 
 
 }

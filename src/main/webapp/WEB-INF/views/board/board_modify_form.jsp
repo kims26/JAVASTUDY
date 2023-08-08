@@ -65,20 +65,19 @@
 </head>
 <body>
 <form>
-    <input type="hidden" name="b_idx" value="${ vo.b_idx}" >
-
+    <input type="hidden" name="b_idx" value="${ vo.b_idx }">
     <div id="box">
         <div class="panel panel-primary">
            <div class="panel-heading"><h4>수정하기</h4></div>
            <div class="panel-body">
               
             <label>제목</label>      
-            <div><input class="form-control" name="b_subject" value="${vo.b_subject}"></div>
+            <div><input class="form-control" name="b_subject" value="${ vo.b_subject }"></div>
             <br>
 
             <label>내용</label>      
             <div id="content">
-                <textarea class="form-control" name="b_content"> ${vo.b_content}</textarea>
+                <textarea class="form-control" name="b_content">${ vo.b_content }</textarea>
             </div>
             <br>
 

@@ -65,6 +65,36 @@
 
     </script>
 
+
+    <!-- 검색기능  -->
+    <script>
+        
+        function search(){
+
+            let search = $("#search").val();
+            let search_text = $("#search_text").val().trim();
+
+            if(search !='all'){//전체검색이 아니면
+                
+                if(search_text==''){
+                    alert('검색어를 입력하세요!!');
+                    $("#search_text").val("");// 값지우기
+                    $("#search_text").focus();
+                    return;
+                }
+            }
+
+            location.href="list.do?search=" + search + "&search_text=" 
+                          + encodeURIComponent(search_text);
+
+
+        }
+
+
+
+    </script>
+
+
 </head>
 <body>
     <div id="box">
@@ -117,7 +147,7 @@
             <!-- for(BoardVo vo : list ) -->
             <c:forEach var="vo" items="${ list }">
                <tr>
-                  <td>${ vo.b_idx }</td>
+                  <td>${vo.no}(${ vo.b_idx })</td>
                   <td>
                     <div class="subject">
                         <!-- 답글에 대한 처리(들여쓰기/ㄴ) -->
@@ -129,7 +159,16 @@
                         ㄴ
                         </c:if>
 
-                        <a href="view.do?b_idx=${ vo.b_idx }">${ vo.b_subject }</a>
+                        <!-- 사용중인 게시물 -->
+                        <c:if test="${ vo.b_use eq 'y' }">
+                           <a href="view.do?b_idx=${ vo.b_idx }">${ vo.b_subject }</a>
+                        </c:if>
+
+                        <!-- 삭제된 게시물 -->
+                        <c:if test="${ vo.b_use eq 'n' }">
+                           <label><font color=red>삭제된 게시물(${ vo.b_subject })</font></label>
+                        </c:if>
+
                     </div>
                   </td>
                   <td>${ vo.mem_name }</td>
@@ -139,6 +178,48 @@
                </tr>   
             </c:forEach>
 
+            <!-- 검색메뉴 -->
+            <tr>
+                <td colspan="5" align="center">
+                  <form class="form-inline">
+                        <select class="form-control" id="search">
+                            <option value="all">전체</option>   
+                            <option value="name">이름</option>   
+                            <option value="subject">제목</option>   
+                            <option value="content">내용</option>   
+                            <option value="name_subject_content">이름+제목+내용</option>   
+                        </select>
+
+                        <input class="form-control"    id="search_text">
+                        <input class="btn btn-primary" type="button"   value="검색"
+                               onclick="search();">
+                  </form>    
+                </td>  
+            </tr>
+
+
+
+
+            <!-- 페이징메뉴 -->
+            <tr>
+                <td colspan="5" align="center">
+                    
+                    <!-- 
+                    Paging내서 동적으로 생성된 Html 메뉴내용
+                    <ul class="pagination">
+                        <li><a href='#'>◀</a></li>
+                        <li class='active'><a href='#'>1</a></li>
+                        <li><a href='list.do?page=2'>2</a></li>
+                        <li><a href='list.do?page=3'>3</a></li>
+                        <li><a href='list.do?page=4'>▶</a></i>
+                    </ul>
+                
+                -->
+
+                    ${ pageMenu }
+
+                </td>
+            </tr>
 
         </table>
 

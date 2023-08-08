@@ -38,6 +38,21 @@
 
 
     </style>
+
+
+    <script>
+
+      function del(b_idx){
+
+        if(confirm("정말 삭제하시겠습니까?")==false)return;
+
+        location.href="delete.do?b_idx=" + b_idx; 
+
+      }
+
+    </script> 
+
+
 </head>
 <body>
     <div id="box">
@@ -67,8 +82,8 @@
               <input  class="btn btn-primary" type="button" value="목록보기"
                       onclick="location.href='list.do'">
               
-              <!-- 로그인상태에서만 사용  -->
-              <c:if test="${ not empty user }">
+              <!-- 로그인상태 및 메인글에서만 사용  -->
+              <c:if test="${ (not empty user) and ( vo.b_depth eq 0 ) }">
                  <input  class="btn btn-success" type="button" value="답글쓰기"
                          onclick="location.href='reply_form.do?b_idx=${ vo.b_idx }'">
               </c:if>
@@ -77,7 +92,8 @@
               <c:if test="${ user.mem_idx eq vo.mem_idx }">
                 <input  class="btn btn-info"    type="button" value="수정하기"
                         onclick="location.href='modify_form.do?b_idx=${ vo.b_idx }'"   >
-                <input  class="btn btn-danger"  type="button" value="삭제하기">
+                <input  class="btn btn-danger"  type="button" value="삭제하기"
+                        onclick="del('${ vo.b_idx }');">
               </c:if>
 
           </div>
