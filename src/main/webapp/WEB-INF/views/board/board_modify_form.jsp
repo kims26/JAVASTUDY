@@ -65,7 +65,11 @@
 </head>
 <body>
 <form>
+<form>
     <input type="hidden" name="b_idx" value="${ vo.b_idx }">
+
+    <input type="hidden" name="page" value="${ param.page }">
+    
     <div id="box">
         <div class="panel panel-primary">
            <div class="panel-heading"><h4>수정하기</h4></div>

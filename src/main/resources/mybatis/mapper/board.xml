@@ -18,44 +18,54 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           rank() over(order by b_ref desc,b_step asc) as no,
           b.*
         from
-          (select * from board) b
+          (
+             select * from board
+             <!-- Dynamic Query -->
+             <trim prefix="where" prefixOverrides="or">
+                <if test="name!=null">
+                   mem_name like '%' || #{ name} || '%'
+                </if>
+
+                <if test="subject!=null">
+                   or b_subject like '%' || #{ subject } || '%'
+                </if>
+
+                <if test="content!=null">
+                   or b_content like '%' || #{ content } || '%'
+                </if>
+
+             </trim> 
+
+          ) b
     )
     where no between #{ start } and #{ end }
 
-    select * from board 
-  	 
- 	 <!-- Dynamic Query -->
-  	 <trim prefix="where"  prefixOverrides="or">  
-  	    
-  	    <!-- 이름검색 -->
-  	    <if test="name!=null">
-  	        name like '%' || #{ name } || '%'
-  	    </if>
-  	    
-  	    <!-- 내용검색 -->
-  	    <if test="content!=null">
-  	        or content like '%' || #{ content } || '%'
-  	    </if>
-  	 </trim>
-  	 
-  	 order by idx desc
-
   </select>
 
-
-  <!-- 전체게시물수 구하기 -->
+  <!-- 전체게시물수(검색조건포함) 구하기 -->
   <select id="selectRowTotal" parameterType="Map" resultType="int">
      select nvl(count(*),0) from board 
+      <!-- Dynamic Query -->
+      <trim prefix="where" prefixOverrides="or">
+        <if test="name!=null">
+            mem_name like '%' || #{ name} || '%'
+        </if>
+
+        <if test="subject!=null">
+            or b_subject like '%' || #{ subject } || '%'
+        </if>
+
+        <if test="content!=null">
+            or b_content like '%' || #{ content } || '%'
+        </if>
+
+      </trim> 
   </select>
 
   
   <select id="selectOne" parameterType="int" resultType="BoardVo">
      select * from board where b_idx=#{ b_idx }
   </select>
-   <!-- 검색 조건별 조회 
-       parameterType="Map"인 경우
-       #{ 변수 } => Map의 key값만 사용할 수 있다
-  -->
   
   <!-- 조회수 증가 -->
   <update id="update_readhit" parameterType="int">

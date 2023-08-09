@@ -68,10 +68,22 @@
 
     <!-- 검색기능  -->
     <script>
-        
-        function search(){
 
-            let search = $("#search").val();
+        // 언제호출? : html browser배치완료되면
+        $(document).ready(function(){
+
+           
+            if("${ not empty param.search}"=="true"){
+                $("#search").val("${ param.search }");
+            }
+            
+
+        });
+
+        
+        function find(){
+
+            let search      = $("#search").val();
             let search_text = $("#search_text").val().trim();
 
             if(search !='all'){//전체검색이 아니면
@@ -84,12 +96,17 @@
                 }
             }
 
+            // 전체검색이면 검색어 지우기
+            if(search=="all"){
+                $("#search_text").val("");
+                search_text="";
+            }
+
             location.href="list.do?search=" + search + "&search_text=" 
                           + encodeURIComponent(search_text);
 
 
         }
-
 
 
     </script>
@@ -161,7 +178,7 @@
 
                         <!-- 사용중인 게시물 -->
                         <c:if test="${ vo.b_use eq 'y' }">
-                           <a href="view.do?b_idx=${ vo.b_idx }">${ vo.b_subject }</a>
+                           <a href="view.do?b_idx=${ vo.b_idx }&page=${ ( empty  param.page) ? 1 : param.page }&search=${ param.search }&search_text=${ param.search_text }">${ vo.b_subject }</a>
                         </c:if>
 
                         <!-- 삭제된 게시물 -->
@@ -178,10 +195,15 @@
                </tr>   
             </c:forEach>
 
-            <!-- 검색메뉴 -->
+            
+
+            <!-- 페이징메뉴 & 검색메뉴 -->
             <tr>
                 <td colspan="5" align="center">
-                  <form class="form-inline">
+                    
+                    <br>
+                    
+                    <form class="form-inline">
                         <select class="form-control" id="search">
                             <option value="all">전체</option>   
                             <option value="name">이름</option>   
@@ -190,19 +212,11 @@
                             <option value="name_subject_content">이름+제목+내용</option>   
                         </select>
 
-                        <input class="form-control"    id="search_text">
-                        <input class="btn btn-primary" type="button"   value="검색"
-                               onclick="search();">
-                  </form>    
-                </td>  
-            </tr>
+                        <input class="form-control"    id="search_text" value="${ param.search_text }">
+                        <input class="btn btn-primary" type="button"    value="검색"
+                               onclick="find();">
+                    </form>  
 
-
-
-
-            <!-- 페이징메뉴 -->
-            <tr>
-                <td colspan="5" align="center">
                     
                     <!-- 
                     Paging내서 동적으로 생성된 Html 메뉴내용
@@ -213,8 +227,7 @@
                         <li><a href='list.do?page=3'>3</a></li>
                         <li><a href='list.do?page=4'>▶</a></i>
                     </ul>
-                
-                -->
+                    -->
 
                     ${ pageMenu }
 

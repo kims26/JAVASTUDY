@@ -66,6 +66,7 @@
 <body>
 <form>
     <input type="hidden" name="b_idx" value="${ param.b_idx}" >
+    <input type="hidden" name="page"  value="${ param.page }" >
     <div id="box">
         <div class="panel panel-primary">
            <div class="panel-heading"><h4>답글쓰기</h4></div>

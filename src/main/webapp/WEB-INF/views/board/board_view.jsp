@@ -46,7 +46,7 @@
 
         if(confirm("정말 삭제하시겠습니까?")==false)return;
 
-        location.href="delete.do?b_idx=" + b_idx; 
+        location.href="delete.do?b_idx=" + b_idx +"&page=${ param.page }"; 
 
       }
 
@@ -80,18 +80,18 @@
 
               <!-- 작업버튼 -->
               <input  class="btn btn-primary" type="button" value="목록보기"
-                      onclick="location.href='list.do'">
+                      onclick="location.href='list.do?page=${ param.page }&search=${ param.search }&search_text=${ param.search_text }'">
               
-              <!-- 로그인상태 및 메인글에서만 사용  -->
-              <c:if test="${ (not empty user) and ( vo.b_depth eq 0 ) }">
+              <!-- 로그인상태 및 메인글에서만 + 검색조건이 all일때 사용  -->
+              <c:if test="${ (not empty user) and ( vo.b_depth eq 0 ) and ( param.search eq 'all' )  }">
                  <input  class="btn btn-success" type="button" value="답글쓰기"
-                         onclick="location.href='reply_form.do?b_idx=${ vo.b_idx }'">
+                         onclick="location.href='reply_form.do?b_idx=${ vo.b_idx }&page=${ param.page }'">
               </c:if>
 
               <!-- 글쓴이인 경우만 활성화 -->
               <c:if test="${ user.mem_idx eq vo.mem_idx }">
                 <input  class="btn btn-info"    type="button" value="수정하기"
-                        onclick="location.href='modify_form.do?b_idx=${ vo.b_idx }'"   >
+                        onclick="location.href='modify_form.do?b_idx=${ vo.b_idx }&page=${ param.page }'"   >
                 <input  class="btn btn-danger"  type="button" value="삭제하기"
                         onclick="del('${ vo.b_idx }');">
               </c:if>

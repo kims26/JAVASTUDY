@@ -43,13 +43,17 @@ public class BoardController {
 
     // /board/list.do
     // /board/list.do?page=1
+    // /board/list.do?search=all&search_text=
+    // /board/list.do?search=name&search_text=길동
+    // /board/list.do?search=name&search_text=길동&page=1
+
     //@RequestMapping("/board/list.do")
     @RequestMapping("list.do")  //  위에 "/board/" + "list.do"
-    public String list(@RequestParam(name="page", defaultValue = "1") int nowPage,Model model,
-                        String search,
-                       String search_text   ){
+    public String list(@RequestParam(name="page", defaultValue = "1") int nowPage,
+                       @RequestParam(name="search", defaultValue = "all")  String search,
+                       @RequestParam(name="search_text", defaultValue = "")String search_text,
+                       Model model){
 
-                        System.out.println("-----------");
 
         //가져올 게시물 시작/끝을 구한다
         int start = (nowPage-1) * MyConstant.Board.BLOCK_LIST + 1;
@@ -59,27 +63,42 @@ public class BoardController {
         map.put("start", start);
         map.put("end", end);
 
-        if(search.equals("name_content")) {
-			//이름 + 내용
-			map.put("name", search_text);
-			map.put("content", search_text);
-		}else if(search.equals("name")) {
-			//이름
-			map.put("name", search_text);
-		}else if(search.equals("content")) {
-			//내용
-			map.put("content", search_text);
-			
-		}
+
+        //검색조건을 map에 포장
+        if(search.equals("name_subject_content")){
+            
+            map.put("name", search_text);
+            map.put("subject", search_text);
+            map.put("content", search_text);
+
+        }else if(search.equals("name")){
+            
+            map.put("name", search_text);
+
+        }else if(search.equals("subject")){
+            
+            map.put("subject", search_text);
+
+        }else if(search.equals("content")){
+            
+            map.put("content", search_text);
+        }
+
 
         List<BoardVo> list = boardDao.selectConditionList(map);
 
 
-        //전체게시물수
+        //전체게시물수(검색정보포함)
         int rowTotal = boardDao.selectRowTotal(map); //현재 map정보는 일단무시
 
+
         //페이징메뉴 생성하기
+        //검색조건 필터
+        String search_filter = String.format("search=%s&search_text=%s", search,search_text);
+        //System.out.println(search_filter);  
+
         String pageMenu = Paging.getPaging("list.do", 
+                                           search_filter,   
                                            nowPage, 
                                            rowTotal, 
                                            MyConstant.Board.BLOCK_LIST,
@@ -98,11 +117,6 @@ public class BoardController {
 
         return "board/board_list";
     }
-
-
-
-
-
 
    
 
@@ -181,9 +195,9 @@ public class BoardController {
 
 
     //답글쓰기
-    //  /board/reply.do?b_idx=6&b_subject=제목&b_content=내용
+    //  /board/reply.do?b_idx=6&b_subject=제목&b_content=내용&page=4
      @RequestMapping("reply.do")
-     public String reply(BoardVo vo,RedirectAttributes ra){
+     public String reply(BoardVo vo,int page,RedirectAttributes ra){
 
         //로그인 유저정보 구하기
         MemberVo user = (MemberVo) session.getAttribute("user");
@@ -223,12 +237,13 @@ public class BoardController {
         //4.DB reply
         res = boardDao.reply(vo) ;
 
+        ra.addAttribute("page", page);// list.do?page=4
 
         return "redirect:list.do";
      }
 
 
-     //  /board/modify_form.do?b_idx=6
+     //  /board/modify_form.do?b_idx=6&page=4
 
     //수정 폼
     @RequestMapping("modify_form.do")
@@ -247,7 +262,7 @@ public class BoardController {
 
 
     @RequestMapping("modify.do")
-    public String modify(BoardVo vo,RedirectAttributes ra){
+    public String modify(BoardVo vo,int page,RedirectAttributes ra){
 
         //로그인 유저정보 구하기
         MemberVo user = (MemberVo) session.getAttribute("user");
@@ -270,24 +285,30 @@ public class BoardController {
         //DB update
         int res = boardDao.update(vo);
         if(res==0){}
-        //수정후 원래뷰로 이동 : view.do?b_idx=5   
+        //수정후 원래뷰로 이동 : view.do?b_idx=5&page=4   
         ra.addAttribute("b_idx", vo.getB_idx());
+        ra.addAttribute("page", page);
         
         return "redirect:view.do";
     }
 
 
-    //  /board/delete.do?b_idx=5
+    //      /board/delete.do?b_idx=5&page=4/search=name&search_text=길동
+    //  /board/delete.do?b_idx=5&page=4
     //삭제
     @RequestMapping("delete.do")
-    public String delete(int b_idx){
+    public String delete(int b_idx,int page,RedirectAttributes ra){
 
         int res = boardDao.delete_update_b_use(b_idx);//내부적인 명령 update board set b_use='n'
 
         if(res==0){}
 
+        ra.addAttribute("page", page);// list.do?page=4
+
         return "redirect:list.do";
     }
+
+
 
 
 }
