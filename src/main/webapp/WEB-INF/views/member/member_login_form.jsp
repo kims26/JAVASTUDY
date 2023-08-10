@@ -103,6 +103,9 @@
 </head>
 <body>
 <form action="login.do">
+
+  <input type="hidden" name="url" value="${ param.url }">
+
   <div id="box">
     
 	    <div class="panel panel-primary">
@@ -132,7 +135,7 @@
 	                             onclick="send(this.form); return false;">로그인</button>       
 	                            
 	                     <input class="btn btn-success" type="button"  value="목록보기"
-	                            onclick="location.href='../photo/list.do'">
+	                            onclick="location.href='../board/list.do'">
 	                 </td>
 	             </tr>
 	          </table>

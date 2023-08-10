@@ -8,6 +8,7 @@ import lombok.Setter;
 public class BoardVo {
     
     int    no;
+    int    comment_count;
     int    b_idx;
     String b_subject;
     String b_content;

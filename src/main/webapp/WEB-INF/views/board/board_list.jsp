@@ -179,6 +179,11 @@
                         <!-- 사용중인 게시물 -->
                         <c:if test="${ vo.b_use eq 'y' }">
                            <a href="view.do?b_idx=${ vo.b_idx }&page=${ ( empty  param.page) ? 1 : param.page }&search=${ param.search }&search_text=${ param.search_text }">${ vo.b_subject }</a>
+
+                           <!-- 댓글 배치 -->
+                            <c:if test="${ vo.comment_count > 0 }">
+                                <span class="badge">${ vo.comment_count }</span>
+                            </c:if>
                         </c:if>
 
                         <!-- 삭제된 게시물 -->

@@ -66,10 +66,11 @@
 <body>
 <form>
 <form>
-    <input type="hidden" name="b_idx" value="${ vo.b_idx }">
+    <input type="hidden" name="b_idx"       value="${ vo.b_idx }">
+    <input type="hidden" name="page"        value="${ param.page }">
+    <input type="hidden" name="search"      value="${ param.search }">
+    <input type="hidden" name="search_text" value="${ param.search_text }">
 
-    <input type="hidden" name="page" value="${ param.page }">
-    
     <div id="box">
         <div class="panel panel-primary">
            <div class="panel-heading"><h4>수정하기</h4></div>

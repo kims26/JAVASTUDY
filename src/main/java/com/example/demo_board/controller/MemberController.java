@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -73,7 +74,9 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/login.do")
-	public String login(String mem_id,String mem_pwd , RedirectAttributes ra) {
+	public String login(String mem_id,String mem_pwd ,
+	                    @RequestParam(name="url",defaultValue = "")   String url,
+	                    RedirectAttributes ra) {
 
 		
 		MemberVo user = memberDao.selectOneFromId(mem_id);
@@ -95,7 +98,16 @@ public class MemberController {
 		
 		session.setAttribute("user", user);
 		
-		return "redirect:../board/list.do";
+		//돌아갈주소가 없으면 메인페이지로 이동
+		if(url.isEmpty()){
+			return "redirect:../board/list.do";
+		}
+
+		//url이 있으면 그 페이지로 이동해라
+		return "redirect:" + url;
+
+
+		
 	}
 	
 	@RequestMapping("/member/logout.do")

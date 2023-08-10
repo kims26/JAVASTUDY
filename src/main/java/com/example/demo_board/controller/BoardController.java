@@ -262,7 +262,7 @@ public class BoardController {
 
 
     @RequestMapping("modify.do")
-    public String modify(BoardVo vo,int page,RedirectAttributes ra){
+    public String modify(BoardVo vo,int page,String search,String search_text,RedirectAttributes ra){
 
         //로그인 유저정보 구하기
         MemberVo user = (MemberVo) session.getAttribute("user");
@@ -288,27 +288,28 @@ public class BoardController {
         //수정후 원래뷰로 이동 : view.do?b_idx=5&page=4   
         ra.addAttribute("b_idx", vo.getB_idx());
         ra.addAttribute("page", page);
+         ra.addAttribute("search", search);
+        ra.addAttribute("search_text", search_text);
         
         return "redirect:view.do";
     }
 
 
-    //      /board/delete.do?b_idx=5&page=4/search=name&search_text=길동
-    //  /board/delete.do?b_idx=5&page=4
+    //  /board/delete.do?b_idx=5&page=4&search=name&search_text=길동
     //삭제
     @RequestMapping("delete.do")
-    public String delete(int b_idx,int page,RedirectAttributes ra){
+    public String delete(int b_idx,int page,String search,String search_text,RedirectAttributes ra){
 
         int res = boardDao.delete_update_b_use(b_idx);//내부적인 명령 update board set b_use='n'
 
         if(res==0){}
 
         ra.addAttribute("page", page);// list.do?page=4
+        ra.addAttribute("search", search);
+        ra.addAttribute("search_text", search_text);
 
         return "redirect:list.do";
     }
-
-
 
 
 }
