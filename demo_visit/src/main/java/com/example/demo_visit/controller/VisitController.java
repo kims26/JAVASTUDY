@@ -72,26 +72,6 @@ public class VisitController {
 		return "visit/visit_insert_form";
 	}
 
-
-	//수정폼 띄우기
-	@RequestMapping("/visit/modify_form.do")
-	public String modify_form(){
-
-		int idx = Integer.parseInt(request.getParameter("idx"));
-		
-		//수정원본데이터 가져오기
-		VisitVo vo =visitDao.selectOne(idx);
-		
-		//DB data <br> -> textarea \n
-		String content = vo.getContent().replaceAll("<br>", "\n");
-		vo.setContent(content);
-		
-		
-		request.setAttribute("vo", vo);
-		return "visit/visit_modify_form";
-	}
-	
-
     //글올리기
 	@RequestMapping("/visit/insert.do")
 	public String insert(VisitVo vo) {
@@ -112,52 +92,70 @@ public class VisitController {
 		return "redirect:list.do"; 
 	}
 
+    @RequestMapping(value="/visit/check_pwd.do", 
+                    produces="application/json;charset=utf-8;")
+	@ResponseBody
+	public Map<String,Boolean> check_pwd(int idx,String c_pwd){
 
-	@RequestMapping("/visit/delet.do")
 
-	public String delete(int idx){
+        VisitVo vo = visitDao.selectOne(idx);
+        //4.비밀번호 같은지 여부 체크(게시물비번==내가입력한비번)
+		boolean bResult = vo.getPwd().equals(c_pwd);
 
-		
-		
+        //결과를 JSON전송
+        Map<String,Boolean> map = new HashMap<String,Boolean>();
+        map.put("result", bResult);
+
+        return map;
+    }
+
+    @RequestMapping("/visit/delete.do")
+	public String delete(int idx) {
         //DB delete
 		int res = visitDao.delete(idx);
 		
-
 		return "redirect:list.do";
 	}
-
-	@RequestMapping("/visit/modify.do")
-
-	public String modify(VisitVo vo){
-
- 		String content = vo.getContent().replaceAll("\n", "<br>");
-        vo.setContent(content);
-
-		String ip		= request.getRemoteAddr();
-		vo.setIp(ip);
-
-		int res = visitDao.modify(vo);
-
-		return "redirect:list.do";
-	}
-
-
-	@RequestMapping(value="/visit/check_pwd.do", produces="application/json;charset=utf-8;")
-	@ResponseBody
-	public Map<String,Boolean> check_pwd(int idx ,String c_pwd)	{
-
-		VisitVo vo = visitDao.selectOne(idx);
-
-		boolean bResult = vo .getPwd().equals(c_pwd);
-
-		Map<String,Boolean> map =new HashMap<String,Boolean>();
-
-		map.put("result", bResult);
-
-		return map;
-	}
-
 	
+	
+	@RequestMapping("/visit/modify_form.do")
+	public String modify_form(int idx,Model model) {
+		
+		//수정원본데이터 가져오기
+		VisitVo vo = visitDao.selectOne(idx);
+		
+		//DB data <br> -> textarea \n
+		String content = vo.getContent().replaceAll("<br>", "\n");
+		vo.setContent(content);
+		
+		
+		model.addAttribute("vo", vo);
+		
+		return "visit/visit_modify_form";
+	}
+	
+	@RequestMapping("/visit/modify.do")
+	public String method_name(VisitVo vo) {
+
+		
+		
+		//     content  =  "동해물과\r\n백두산이\r\n"  :   \n => <br> 
+		String content 	= vo.getContent().replaceAll("\n", "<br>");
+		vo.setContent(content);
+		
+		//3.ip구하기
+		String ip		= request.getRemoteAddr();
+        vo.setIp(ip);
+		
+		//5.DB update
+		int res = visitDao.update(vo);
+		
+		//6.목록보기 이동
+		
+		return "redirect:list.do";
+	}
+
+
 
 
 }

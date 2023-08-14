@@ -49,7 +49,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      select * from visit where idx=#{ idx } 
   </select>
  
- 
   <!-- 글쓰기(insert)  
        #{name} => vo.getName() Call
   -->
@@ -72,7 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        parameterType="vo.VisitVo"
        #{ 변수명 }은 VisitVo내의 속성명(변수명)만 사용가능
   -->
-  <update id="modify"  parameterType="VisitVo">
+  <update id="update"  parameterType="VisitVo">
      
      update visit set name=#{ name },
                       content=#{ content },

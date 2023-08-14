@@ -12,19 +12,12 @@ public interface VisitDao {
     
     List<VisitVo> selectList();//전체조회
     
+    List<VisitVo> selectConditionList(Map<String,String> map);//조건별조회
+
     VisitVo selectOne(int idx);
 
-
-    List<VisitVo> selectConditionList(Map map);//조건별조회
-
     int insert(VisitVo vo);
-
+    int update(VisitVo vo);
     int delete(int idx);
-
-    int modify(VisitVo vo);
-
-
-
-
 
 }
